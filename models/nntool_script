@@ -7,5 +7,5 @@ nodeoption input_1 ALLOCATE 1
 set graph_produce_node_names true
 set graph_produce_operinfos true
 set graph_monitor_cycles true
-set graph_trace_exec true
+#set graph_trace_exec true
 save_state

@@ -1,2 +1,0 @@
-# Efficient-Net
-

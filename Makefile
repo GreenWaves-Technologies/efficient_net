@@ -1,4 +1,4 @@
-# Copyright (C) 2017 GreenWaves Technologies
+# Copyright (C) 2022 GreenWaves Technologies
 # All rights reserved.
 
 # This software may be modified and distributed under the terms
@@ -6,6 +6,10 @@
 
 ifndef GAP_SDK_HOME
   $(error Source sourceme in gap_sdk first)
+endif
+
+ifneq '$(TARGET_CHIP_FAMILY)' 'GAP9'
+  $(error This Project is only for GAP9)
 endif
 
 include common.mk
