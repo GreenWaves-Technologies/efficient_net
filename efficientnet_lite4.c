@@ -26,6 +26,7 @@
 
 AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite4_L3_Flash = 0;
 
+char *ImageName;
 /* Inputs */
 // L2_MEM signed char Input_1[150528];
 /* Outputs */
@@ -101,7 +102,6 @@ int test_efficientnet_lite4(void)
         pmsis_exit(-6);
     }
 
-    char *ImageName = __XSTR(AT_IMAGE);
     printf("Reading image from %s\n",ImageName);
 
     //Reading Image from Bridge
@@ -159,8 +159,15 @@ int main(int argc, char *argv[])
 {
     printf("\n\n\t *** NNTOOL efficientnet_lite4 Example ***\n\n");
     #ifdef __EMUL__
+    if (argc < 2)
+    {
+      PRINTF("Usage: squeezenet [image_file]\n");
+      exit(-1);
+    }
+    ImageName = argv[1];
     test_efficientnet_lite4();
     #else
+    ImageName = __XSTR(AT_IMAGE);
     return pmsis_kickoff((void *) test_efficientnet_lite4);
     #endif
     return 0;
