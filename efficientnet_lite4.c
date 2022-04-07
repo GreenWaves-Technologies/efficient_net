@@ -19,7 +19,7 @@
 #endif
 
 #define __XSTR(__s) __STR(__s)
-#define __STR(__s) #__s 
+#define __STR(__s) #__s
 #ifndef STACK_SIZE
 #define STACK_SIZE      1024
 #endif
@@ -59,16 +59,17 @@ static void cluster()
 int test_efficientnet_lite4(void)
 {
     printf("Entering main controller\n");
-    /* ----------------> 
+    /* ---------------->
      * Put here Your input settings
      * <---------------
      */
-    
+
 
 #ifndef __EMUL__
     /* Configure And open cluster. */
     struct pi_device cluster_dev;
     struct pi_cluster_conf cl_conf;
+    pi_cluster_conf_init(&cl_conf);
     cl_conf.id = 0;
     pi_open_from_conf(&cluster_dev, (void *) &cl_conf);
     if (pi_cluster_open(&cluster_dev))
