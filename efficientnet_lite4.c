@@ -71,6 +71,7 @@ int test_efficientnet_lite4(void)
     struct pi_cluster_conf cl_conf;
     pi_cluster_conf_init(&cl_conf);
     cl_conf.id = 0;
+    cl_conf.cc_stack_size = STACK_SIZE;
     pi_open_from_conf(&cluster_dev, (void *) &cl_conf);
     if (pi_cluster_open(&cluster_dev))
     {
@@ -116,12 +117,9 @@ int test_efficientnet_lite4(void)
 
     printf("Call cluster\n");
 #ifndef __EMUL__
-    struct pi_cluster_task task = {0};
-    task.entry = cluster;
-    task.arg = NULL;
-    task.stack_size = (unsigned int) STACK_SIZE;
-    task.slave_stack_size = (unsigned int) SLAVE_STACK_SIZE;
-
+    struct pi_cluster_task task;
+    pi_cluster_task(&task, cluster, NULL);
+    pi_cluster_task_stacks(&task, NULL, SLAVE_STACK_SIZE);
     pi_cluster_send_task_to_cl(&cluster_dev, &task);
 #else
     cluster();
