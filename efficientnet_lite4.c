@@ -41,7 +41,9 @@ static void cluster()
     gap_cl_resethwtimer();
     #endif
 
+    GPIO_HIGH();
     efficientnet_lite4CNN(Output_1);
+    GPIO_LOW();
     printf("Runner completed\n");
 
     //Check Results
@@ -66,6 +68,7 @@ int test_efficientnet_lite4(void)
     
 
 #ifndef __EMUL__
+    OPEN_GPIO_MEAS();
     /* Configure And open cluster. */
     struct pi_device cluster_dev;
     struct pi_cluster_conf cl_conf;
@@ -115,13 +118,15 @@ int test_efficientnet_lite4(void)
 
     printf("Call cluster\n");
 #ifndef __EMUL__
-    struct pi_cluster_task task = {0};
-    task.entry = cluster;
-    task.arg = NULL;
-    task.stack_size = (unsigned int) STACK_SIZE;
-    task.slave_stack_size = (unsigned int) SLAVE_STACK_SIZE;
+    struct pi_cluster_task* task = (struct pi_cluster_task*)pmsis_l2_malloc(sizeof(struct pi_cluster_task));
+    task = pi_cluster_task(task,NULL,NULL);
 
-    pi_cluster_send_task_to_cl(&cluster_dev, &task);
+    task->entry = cluster;
+    task->arg = NULL;
+    task->stack_size = (unsigned int) STACK_SIZE;
+    task->slave_stack_size = (unsigned int) SLAVE_STACK_SIZE;
+
+    pi_cluster_send_task_to_cl(&cluster_dev, task);
 #else
     cluster();
 #endif
