@@ -60,13 +60,6 @@ static void cluster()
 
 int test_efficientnet_lite4(void)
 {
-    printf("Entering main controller\n");
-    /* ---------------->
-     * Put here Your input settings
-     * <---------------
-     */
-
-
 #ifndef __EMUL__
     OPEN_GPIO_MEAS();
     /* Configure And open cluster. */
@@ -76,27 +69,17 @@ int test_efficientnet_lite4(void)
     cl_conf.id = 0;
     cl_conf.cc_stack_size = STACK_SIZE;
     pi_open_from_conf(&cluster_dev, (void *) &cl_conf);
-    if (pi_cluster_open(&cluster_dev))
-    {
-        printf("Cluster open failed !\n");
-        pmsis_exit(-4);
-    }
-    int cur_fc_freq = pi_freq_set(PI_FREQ_DOMAIN_FC, 250000000);
-    if (cur_fc_freq == -1)
-    {
-        printf("Error changing frequency !\nTest failed...\n");
-        pmsis_exit(-4);
-    }
-
-    int cur_cl_freq = pi_freq_set(PI_FREQ_DOMAIN_CL, 175000000);
-    if (cur_cl_freq == -1)
-    {
-        printf("Error changing frequency !\nTest failed...\n");
-        pmsis_exit(-5);
-    }
-#ifdef __GAP9__
-    pi_freq_set(PI_FREQ_DOMAIN_PERIPH, 250000000);
-#endif
+    pi_cluster_open(&cluster_dev);
+    pi_freq_set(PI_FREQ_DOMAIN_FC, FREQ_FC*1000*1000);
+    pi_freq_set(PI_FREQ_DOMAIN_CL, FREQ_CL*1000*1000);
+    pi_freq_set(PI_FREQ_DOMAIN_PERIPH, FREQ_PE*1000*1000);
+    printf("Set FC Frequency = %d MHz, CL Frequency = %d MHz, PERIIPH Frequency = %d MHz\n",
+            pi_freq_get(PI_FREQ_DOMAIN_FC), pi_freq_get(PI_FREQ_DOMAIN_CL), pi_freq_get(PI_FREQ_DOMAIN_PERIPH));
+    #ifdef VOLTAGE
+    pi_pmu_voltage_set(PI_PMU_VOLTAGE_DOMAIN_CHIP, VOLTAGE);
+    pi_pmu_voltage_set(PI_PMU_VOLTAGE_DOMAIN_CHIP, VOLTAGE);
+    printf("Voltage: %dmV\n", VOLTAGE);
+    #endif
 #endif
     // IMPORTANT - MUST BE CALLED AFTER THE CLUSTER IS SWITCHED ON!!!!
     printf("Constructor\n");
@@ -163,7 +146,7 @@ int main(int argc, char *argv[])
     #ifdef __EMUL__
     if (argc < 2)
     {
-      PRINTF("Usage: squeezenet [image_file]\n");
+      PRINTF("Usage: efficientnet_lite4 [image_file]\n");
       exit(-1);
     }
     ImageName = argv[1];
