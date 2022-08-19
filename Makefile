@@ -18,8 +18,25 @@ include $(RULES_DIR)/at_common_decl.mk
 io=stdout
 
 IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_224.ppm
-FLASH_TYPE ?= HYPER
-RAM_TYPE   ?= HYPER
+ifeq '$(MODEL_TYPE)' 'tflite'
+  ifeq ($(MODEL_SIZE), 0)
+    IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_224.ppm
+  endif
+  ifeq ($(MODEL_SIZE), 1)
+    IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_240.ppm
+  endif
+  ifeq ($(MODEL_SIZE), 2)
+    IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_260.ppm
+  endif
+  ifeq ($(MODEL_SIZE), 3)
+    IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_280.ppm
+  endif
+  ifeq ($(MODEL_SIZE), 4)
+    IMAGE = $(CURDIR)/images/ILSVRC2012_val_00011158_300.ppm
+  endif
+endif
+FLASH_TYPE ?= DEFAULT
+RAM_TYPE   ?= DEFAULT
 
 ifeq '$(FLASH_TYPE)' 'HYPER'
   MODEL_L3_FLASH=AT_MEM_L3_HFLASH

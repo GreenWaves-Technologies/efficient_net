@@ -1,4 +1,6 @@
 set log_level INFO
+set graph_name efficientnet_lite
+
 adjust 
 fusions --scale8 
 set input_norm_func "x:x/128-1"
