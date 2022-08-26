@@ -16,5 +16,5 @@
 #endif
 
 extern AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite_L3_Flash;
-#include "../../power_meas_utils/measurments_utils.h"
+#include "measurments_utils.h"
 #endif
