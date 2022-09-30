@@ -100,7 +100,7 @@ int test_efficientnet_lite(void)
     }
     printf("Finished reading image %s\n", ImageName);
     #ifndef MODEL_NE16
-    printf("Subracting -128 to the input image to make it signed...\n");
+    printf("Subracting -128 from the input image to make it signed...\n");
     for (int i=0; i<224*224*3; i++) Input_1[i] -= 128;
     #endif
 
