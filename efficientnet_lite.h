@@ -16,5 +16,6 @@
 #endif
 
 extern AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite_L3_Flash;
+extern AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite_L3_PrivilegedFlash;
 #include "measurments_utils.h"
 #endif
