@@ -114,6 +114,10 @@ build:: model
 
 clean:: clean_model
 
+DATASET_PATH=
+test_accuracy_nntool: $(MODEL_STATE)
+  python models/test_accuracy_tflite.py $(MODEL_STATE) $(DATASET_PATH)
+
 include common/model_rules.mk
 $(info APP_SRCS... $(APP_SRCS))
 $(info APP_CFLAGS... $(APP_CFLAGS))
