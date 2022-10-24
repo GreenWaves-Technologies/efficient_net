@@ -25,6 +25,7 @@
 #endif
 
 AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite_L3_Flash = 0;
+AT_HYPERFLASH_FS_EXT_ADDR_TYPE efficientnet_lite_L3_PrivilegedFlash = 0;
 
 char *ImageName;
 /* Inputs */
@@ -78,8 +79,8 @@ int test_efficientnet_lite(void)
     #ifdef VOLTAGE
     pi_pmu_voltage_set(PI_PMU_VOLTAGE_DOMAIN_CHIP, VOLTAGE);
     pi_pmu_voltage_set(PI_PMU_VOLTAGE_DOMAIN_CHIP, VOLTAGE);
-    printf("Voltage: %dmV\n", VOLTAGE);
     #endif
+    printf("Voltage: %dmV\n", pi_pmu_voltage_get(PI_PMU_VOLTAGE_DOMAIN_CHIP));
 #endif
     // IMPORTANT - MUST BE CALLED AFTER THE CLUSTER IS SWITCHED ON!!!!
     printf("Constructor\n");
@@ -90,21 +91,18 @@ int test_efficientnet_lite(void)
         pmsis_exit(-6);
     }
 
-    printf("Reading image from %s\n",ImageName);
-
     // Reading Image from Bridge
     img_io_out_t type = IMGIO_OUTPUT_CHAR;
-    if (ReadImageFromFile(ImageName, 224, 224, 3, Input_1, 224*224*3*sizeof(char), type, TRANSPOSE_2CHW)) {
+    if (ReadImageFromFile(ImageName, IMAGE_SIZE, IMAGE_SIZE, 3, Input_1, IMAGE_SIZE*IMAGE_SIZE*3*sizeof(char), type, TRANSPOSE_2CHW)) {
         printf("Failed to load image %s\n", ImageName);
         pmsis_exit(-1);
     }
-    printf("Finished reading image %s\n", ImageName);
     #ifndef MODEL_NE16
-    printf("Subracting -128 from the input image to make it signed...\n");
-    for (int i=0; i<224*224*3; i++) Input_1[i] -= 128;
+    printf("Subracting -128 to the input image to make it signed...\n");
+    for (int i=0; i<IMAGE_SIZE*IMAGE_SIZE*3; i++) Input_1[i] -= 128;
     #endif
 
-    printf("Call cluster\n");
+    printf("Model:\t%s\n\n", __XSTR(MODEL_NAME));
 #ifndef __EMUL__
     struct pi_cluster_task task;
     pi_cluster_task(&task, cluster, NULL);
