@@ -115,8 +115,8 @@ int test_efficientnet_lite(void)
     efficientnet_liteCNN_Destruct();
 
 #ifdef PERF
+    unsigned int TotalCycles = 0, TotalOper = 0;
     {
-      unsigned int TotalCycles = 0, TotalOper = 0;
       printf("\n");
       for (unsigned int i=0; i<(sizeof(AT_GraphPerf)/sizeof(unsigned int)); i++) {
         TotalCycles += AT_GraphPerf[i]; TotalOper += AT_GraphOperInfosNames[i];
@@ -135,6 +135,14 @@ int test_efficientnet_lite(void)
         printf("Wrong results!\n");
         pmsis_exit(-1);
     }
+
+    #if defined(PERF_CI) && defined(PERF)
+        if (TotalCycles > PERF_CI) {
+            printf("Error in CI for performance: we expected to be faster: %d > %d\n", TotalCycles, PERF_CI);
+            pmsis_exit(-1);
+        }
+        printf("Performance Regression passed\n");
+    #endif
 
     printf("Ended\n");
     pmsis_exit(0);
