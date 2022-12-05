@@ -40,12 +40,14 @@ set(MAIN                efficientnet_lite.c)
 
 include($ENV{GAP_SDK_HOME}/utils/cmake/setup.cmake)
 
+set(APP_MSG_PREFIX "[${BoldRed}${TARGET_NAME}${ColourReset}]")
+
 ###############################################################################
 # Application's kconfig options
 ###############################################################################
 
 if (DEFINED CONFIG_MODEL_TFLITE)
-        message(STATUS ">> EfficientNet TFLITE <<")
+        message(STATUS "${APP_MSG_PREFIX} >> EfficientNet TFLITE <<")
         set(CONFIG_NNTOOL_SCRIPT_PATH models/nntool_script_q)
         set(CONFIG_NNTOOL_MODEL_QUANTIZED y)
         set(MODEL_EXTENSION _int8_2.tflite)
@@ -62,7 +64,7 @@ if (DEFINED CONFIG_MODEL_TFLITE)
         endif()
 
 elseif(DEFINED CONFIG_MODEL_ONNX)
-        message(STATUS ">> EfficientNet ONNX <<")
+        message(STATUS "${APP_MSG_PREFIX} >> EfficientNet ONNX <<")
         set(CONFIG_NNTOOL_SCRIPT_PATH models/nntool_script)
         set(MODEL_EXTENSION .onnx)
         set(IMAGE_SIZE 224)
@@ -84,17 +86,17 @@ set(MODEL_NAME efficientnet-lite${CONFIG_MODEL_SIZE}${MODEL_EXTENSION})
 set(CONFIG_NNTOOL_MODEL_PATH models/${MODEL_NAME})
 
 if(DEFINED CONFIG_MODEL_NE16)
-        message(STATUS ">> Building NE16 EfficientNet model <<")
+        message(STATUS "${APP_MSG_PREFIX} >> Building NE16 EfficientNet model <<")
         set(CONFIG_NNTOOL_SCRIPT_PATH "${CONFIG_NNTOOL_SCRIPT_PATH}_ne16")
         set(TRANSPOSE_2CHW 0)
         list(APPEND TARGET_PREPROCESSOR -DMODEL_NE16)
 
 elseif(DEFINED CONFIG_MODEL_SQ8_HWC)
-        message(STATUS ">> Building SQ8 HWC EfficientNet model <<")
+        message(STATUS "${APP_MSG_PREFIX} >> Building SQ8 HWC EfficientNet model <<")
         set(TRANSPOSE_2CHW 0)
 
 elseif(DEFINED CONFIG_MODEL_SQ8)
-        message(STATUS ">> Building SQ8 EfficientNet model <<")
+        message(STATUS "${APP_MSG_PREFIX} >> Building SQ8 EfficientNet model <<")
         set(TRANSPOSE_2CHW 1)
 
 endif()

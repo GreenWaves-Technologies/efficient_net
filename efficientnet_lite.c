@@ -159,10 +159,9 @@ int main(int argc, char *argv[])
       exit(-1);
     }
     ImageName = argv[1];
-    test_efficientnet_lite();
     #else
     ImageName = __XSTR(AT_IMAGE);
-    return pmsis_kickoff((void *) test_efficientnet_lite);
     #endif
+    test_efficientnet_lite();
     return 0;
 }
