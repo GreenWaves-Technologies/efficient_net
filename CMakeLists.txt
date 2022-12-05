@@ -39,7 +39,6 @@ set(MAIN                efficientnet_lite.c)
 ###############################################################################
 
 include($ENV{GAP_SDK_HOME}/utils/cmake/setup.cmake)
-setup_cmake()
 
 ###############################################################################
 # Application's kconfig options
