@@ -90,14 +90,17 @@ if(DEFINED CONFIG_MODEL_NE16)
         set(CONFIG_NNTOOL_SCRIPT_PATH "${CONFIG_NNTOOL_SCRIPT_PATH}_ne16")
         set(TRANSPOSE_2CHW 0)
         list(APPEND TARGET_PREPROCESSOR -DMODEL_NE16)
+        set(CI_CLASS 41)
 
 elseif(DEFINED CONFIG_MODEL_SQ8_HWC)
         message(STATUS "${APP_MSG_PREFIX} >> Building SQ8 HWC EfficientNet model <<")
         set(TRANSPOSE_2CHW 0)
+        set(CI_CLASS 42)
 
 elseif(DEFINED CONFIG_MODEL_SQ8)
         message(STATUS "${APP_MSG_PREFIX} >> Building SQ8 EfficientNet model <<")
         set(TRANSPOSE_2CHW 1)
+        set(CI_CLASS 42)
 
 endif()
 
@@ -129,7 +132,7 @@ list(APPEND TARGET_INCS -I${TILER_INC}
                         -I${TILER_EMU_INC}
                         -I${GAP_SDK_HOME}/libs/gap_lib/include
                           ${CNN_LIB_INCLUDE}
-			-I${COMMON_MODEL_BUILDDIR}
+                        -I${COMMON_MODEL_BUILDDIR}
                         -I${CMAKE_CURRENT_SOURCE_DIR}
                         -I${GAP_SDK_HOME}/utils/power_meas_utils)
 
@@ -140,8 +143,8 @@ math(EXPR FREQ_FC_MHZ "${CONFIG_FREQUENCY_FC}/1000/1000")
 math(EXPR FREQ_PE_MHZ "${CONFIG_FREQUENCY_PERIPH}/1000/1000")
 list(APPEND TARGET_PREPROCESSOR -DPERF
                                 -DAT_MODEL_PREFIX=${MODEL_PREFIX}
-				-DSTACK_SIZE=${CONFIG_CL_MASTER_CORE_STACK_SIZE}
-				-DSLAVE_STACK_SIZE=${CONFIG_CL_SLAVE_CORE_STACK_SIZE}
+                                -DSTACK_SIZE=${CONFIG_CL_MASTER_CORE_STACK_SIZE}
+                                -DSLAVE_STACK_SIZE=${CONFIG_CL_SLAVE_CORE_STACK_SIZE}
                                 -DAT_IMAGE=${CMAKE_CURRENT_SOURCE_DIR}/${IMAGE}
                                 -DAT_INPUT_HEIGHT=${AT_INPUT_WIDTH}
                                 -DAT_INPUT_WIDTH=${AT_INPUT_HEIGHT}
@@ -154,7 +157,9 @@ list(APPEND TARGET_PREPROCESSOR -DPERF
                                 -DAT_CNN=${AT_CNN}
                                 -DIMAGE_SIZE=${IMAGE_SIZE}
                                 -DTRANSPOSE_2CHW=${TRANSPOSE_2CHW}
-                                -DMODEL_NAME=${MODEL_NAME})
+                                -DMODEL_NAME=${MODEL_NAME}
+                                -DCI_CLASS=${CI_CLASS}
+)
 
 project(${TARGET_NAME} C ASM)
 add_executable(${TARGET_NAME} ${TARGET_SRCS})

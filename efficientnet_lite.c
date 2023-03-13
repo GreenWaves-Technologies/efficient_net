@@ -130,7 +130,7 @@ int test_efficientnet_lite(void)
     }
 #endif
 
-    if(outclass==42 && MaxPrediction>15000) printf("Test successful!\n");
+    if(outclass==CI_CLASS && MaxPrediction>15000) printf("Test successful!\n");
     else {
         printf("Wrong results!\n");
         pmsis_exit(-1);
