@@ -1,19 +1,21 @@
-name: efficient_net 
-builder: cmake
-boards: []
-platforms: 
-    - board
-    - gvsoc
-os: 
-    - freertos
-    - pulpos
-chips: 
-    - gap9
+name: efficient_net
 variants:
-    std:
-        name: ne16
-        tags:
-            - integration
-            - release
-        duration: standard
-        flags: CONFIG_MODEL_NE16=y PERF_CI=65000000
+    ne16_gvsoc:
+        chip: gap9
+        board: gap9evk
+        platform: gvsoc
+        os: freertos
+        builder: cmake
+        flags:
+            - CONFIG_MODEL_NE16=y
+            - PERF_CI=65000000
+            
+    ne16_board:
+        chip: gap9
+        board: gap9evk
+        platform: gvsoc
+        os: freertos
+        builder: cmake
+        flags:
+            - CONFIG_MODEL_NE16=y
+            - PERF_CI=65000000
