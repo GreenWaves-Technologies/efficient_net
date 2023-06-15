@@ -9,7 +9,20 @@ variants:
         flags:
             - CONFIG_MODEL_NE16=y
             - PERF_CI=65000000
-            
+            - CONFIG_CNN_SQ8=y
+            - CONFIG_MODEL_NE16=y
+            - CONFIG_MODEL_LOGLEVEL=1
+            - CONFIG_ENABLE_NNTOOL=y
+            - CONFIG_BOARD_GAP9MOD_V1_0_B=y
+            - CONFIG_BOARD_GAP9EVK_V1_3=y
+            - CONFIG_PLATFORM_GVSOC=y
+            - CONFIG_LIB_GAP_LIB=y
+            - CONFIG_LIB_GAP_LIB_IMG_IO=y
+            - CONFIG_DRIVER_READFS=y
+            - CONFIG_DRIVER_HOSTFS=y
+            - CONFIG_DRIVER_TYPE_FLASH=y
+            - CONFIG_DRIVER_TYPE_RAM=y
+
     ne16_board:
         chip: gap9
         board: gap9evk
@@ -19,3 +32,16 @@ variants:
         flags:
             - CONFIG_MODEL_NE16=y
             - PERF_CI=65000000
+            - CONFIG_CNN_SQ8=y
+            - CONFIG_MODEL_NE16=y
+            - CONFIG_MODEL_LOGLEVEL=1
+            - CONFIG_ENABLE_NNTOOL=y
+            - CONFIG_BOARD_GAP9MOD_V1_0_B=y
+            - CONFIG_BOARD_GAP9EVK_V1_3=y
+            - CONFIG_PLATFORM_GVSOC=y
+            - CONFIG_LIB_GAP_LIB=y
+            - CONFIG_LIB_GAP_LIB_IMG_IO=y
+            - CONFIG_DRIVER_READFS=y
+            - CONFIG_DRIVER_HOSTFS=y
+            - CONFIG_DRIVER_TYPE_FLASH=y
+            - CONFIG_DRIVER_TYPE_RAM=y
