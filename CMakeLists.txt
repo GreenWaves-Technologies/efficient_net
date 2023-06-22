@@ -90,7 +90,7 @@ if(DEFINED CONFIG_MODEL_NE16)
         set(CONFIG_NNTOOL_SCRIPT_PATH "${CONFIG_NNTOOL_SCRIPT_PATH}_ne16")
         set(TRANSPOSE_2CHW 0)
         list(APPEND TARGET_PREPROCESSOR -DMODEL_NE16)
-        set(CI_CLASS 41)
+        set(CI_CLASS 42)
 
 elseif(DEFINED CONFIG_MODEL_SQ8_HWC)
         message(STATUS "${APP_MSG_PREFIX} >> Building SQ8 HWC EfficientNet model <<")
